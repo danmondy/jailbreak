@@ -1,0 +1,60 @@
+package templates
+
+import(
+    "fmt"
+    
+    . "github.com/danmondy/jailbreak/data"
+)
+
+templ playerNav(){
+    <h1>JailBreak</h1>
+}
+
+templ PlayerLobby(roomCode string){
+    <html>
+        <head>
+            @head()
+        </head>
+        <body class="bg-dark text-secondary">
+            <div class="container px-4 my-5">
+                <div class="row align-items-center text-center g-lg-5 py-5">
+                    <h1 class="fw-bold text-white">JAILBREAK</h1>
+                    <div id="page-content"> 
+                        <div hx-ext="ws" ws-connect={ fmt.Sprintf("/ws/player/%v", roomCode) }>
+                            <div id="player-content">
+                                <h1>Room Code <span style="font-size:32px;font-family:Helvetica;font-weight:bold;">{roomCode}</span></h1>
+                                
+                                <div class="row align-items-center text-center g-lg-5 py-5">
+                                <div class="col-sm-6 col-md-6 mx-auto">
+                                    <form ws-send  method="post" class="p-4 p-md-5" id="username-form" >
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput" name="username" placeholder="username"/>
+                                            <label for="floatingInput">username</label>
+                                        </div>
+                                        <input class="w-100 btn btn-lg btn-primary" type="submit" value="join" />
+                                    </form>
+                                </div>
+                                <div class="col-sm-6 col-md-6 mx-auto text-center text-lg-start">
+                                    <div id="player-list">
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+}
+
+templ PlayerList(players map[string]*Player){
+    <div id="player-list">
+        <h3>Players</h3>
+        <ul style="list-style-type:none;">
+            for _, p := range players{
+                <li style="background-color:#333; padding:8px;margin:8px;font-family:Helvetica;text-transform:uppercase;font-weight:bold">{p.Username}</li>
+            }
+        </ul>    
+    </div>
+}

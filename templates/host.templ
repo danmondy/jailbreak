@@ -1,0 +1,31 @@
+package templates
+
+import(
+    "fmt"
+
+    _ "github.com/danmondy/jailbreak/data"
+)
+
+templ HostLobbyPage(roomCode string){
+    <div hx-ext="ws" ws-connect={ fmt.Sprintf("/ws/host/%v", roomCode) }>
+        <div id="host-content">
+            <h1>Room Code <span style="font-size:32px;font-family:Helvetica;font-weight:bold;">{roomCode}</span></h1>
+            <div class="col-sm-6 col-md-6 mx-auto">
+                <div id="player-list">
+                    Players...
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 mx-auto text-center text-lg-start">
+                <button hx-get="/host/lobby"
+                    hx-trigger="click"
+                    hx-target="#page-content"
+                    hx-swap="innerHTML" 
+                    hx-push-url="/host/lobby"
+                    class="w-100 btn btn-lg btn-Secondary">Begin</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
